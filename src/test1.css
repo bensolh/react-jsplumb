@@ -1,0 +1,20 @@
+/*style={{width: '150px', height: '150px', outline: '1px solid black', position: 'absolute'}}*/
+
+#canvas {
+    transform: scale(0.5);
+}
+
+.element {
+    width: 150px;
+    height: 150px;
+    position: absolute;
+    z-index: 10;
+    background-color: #efefef;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.element2 {
+    left: 300px;
+    top: 150px;
+}
