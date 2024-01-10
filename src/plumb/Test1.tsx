@@ -63,8 +63,15 @@ const Test1 = () => {
             <h1>JsPlumb example, using elements rendered by React</h1>
             <ZoomPanWrapper onZoomStop={handleZoom}>
                 <div id="jsplumb-canvas" ref={containerRef}>
-                    <div id="div1" ref={div1Ref} className="element">div 1</div>
-                    <div id="div2" ref={div2Ref} className="element element2">div 2</div>
+                    <div id="div1" ref={div1Ref} className="element">I am rendered using jsx!</div>
+                    <div id="div2" ref={div2Ref} className="element element2">
+                        You can:
+                        <ul>
+                            <li>Drag</li>
+                            <li>Zoom (mouse wheel)</li>
+                            <li>Pan</li>
+                        </ul>
+                    </div>
                 </div>
             </ZoomPanWrapper>
         </>
