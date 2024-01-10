@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Test1 from "./Test1";
+import Test1 from "./plumb/Test1";
 
 function App() {
   return (

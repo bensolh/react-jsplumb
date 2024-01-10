@@ -1,6 +1,8 @@
 import {MutableRefObject, useEffect, useRef} from "react";
 import {BrowserJsPlumbInstance, AnchorLocations, BezierConnector} from "@jsplumb/browser-ui";
 import * as jsPlumb from "@jsplumb/browser-ui";
+import {ReactZoomPanPinchRef} from "react-zoom-pan-pinch";
+import ZoomPanWrapper from "./ZoomPanWrapper";
 
 import './test1.css'
 
@@ -11,25 +13,25 @@ const Test1 = () => {
     const div2Ref = useRef(null)
     const jsRef: MutableRefObject<BrowserJsPlumbInstance | undefined> = useRef()
 
-    // MutableRefObject<undefined> is not assignable to type LegacyRef<HTMLDivElement> | undefined
-
-    const resolveRef = (ref: MutableRefObject<any>): Element => ref.current as Element
+    const resolveElementRef = (ref: MutableRefObject<any>): Element => ref.current as Element
 
     useEffect(() => {
+        console.log("initPlumb")
         if (loaded.current) {
+            jsRef.current!.repaintEverything()
             // jsRef.current!.setZoom(jsRef.current!.currentZoom/2, true)
             return;
         }
         jsPlumb.ready(() => {
             const jsInstance = jsPlumb.newInstance({
-                container: resolveRef(containerRef)
+                container: resolveElementRef(containerRef)
             })
-            jsInstance.setDraggable(resolveRef(div1Ref), true)
-            jsInstance.setDraggable(resolveRef(div2Ref), true)
+            jsInstance.setDraggable(resolveElementRef(div1Ref), true)
+            jsInstance.setDraggable(resolveElementRef(div2Ref), true)
 
             jsInstance.connect({
-                source: resolveRef(div1Ref),
-                target: resolveRef(div2Ref),
+                source: resolveElementRef(div1Ref),
+                target: resolveElementRef(div2Ref),
                 anchor: AnchorLocations.Continuous,
                 directed: true,
                 connector: {
@@ -43,17 +45,28 @@ const Test1 = () => {
             jsRef.current = jsInstance
         })
 
+
         loaded.current = true
     }, []);
+
+    // const handleZoom = (ref: ReactZoomPanPinchRef, state: { scale: number; positionX: number; positionY: number }) => { // for onTransform rather than onZoomStop
+    const handleZoom = (ref: ReactZoomPanPinchRef, event: TouchEvent | MouseEvent) => {
+        if (!jsRef.current) return
+        // console.log("nytt zoomnivå: ", state.scale)
+        console.log("ref: ", ref.state.scale)
+        jsRef.current!.setZoom(ref.state.scale)
+    }
+
 
     return (
         <>
             <h1>JsPlumb example, using elements rendered by React</h1>
-            <div id="canvas" ref={containerRef} style={{width: '500px', height: '500px', outline: '1px solid green'}}>
-                <div id="div1" ref={div1Ref} className="element">div 1</div>
-                <div id="div2" ref={div2Ref} className="element element2">div 2</div>
-            </div>
-
+            <ZoomPanWrapper onZoomStop={handleZoom}>
+                <div id="jsplumb-canvas" ref={containerRef}>
+                    <div id="div1" ref={div1Ref} className="element">div 1</div>
+                    <div id="div2" ref={div2Ref} className="element element2">div 2</div>
+                </div>
+            </ZoomPanWrapper>
         </>
     );
 }
