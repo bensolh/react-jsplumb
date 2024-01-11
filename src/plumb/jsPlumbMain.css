@@ -1,0 +1,45 @@
+#jsplumb-canvas {
+    --canvas-width: 8000px;
+    --canvas-height: 8000px;
+    --canvas-center-x: calc(var(--canvas-width) / 2);
+    --canvas-center-y: calc(var(--canvas-height) / 2);
+
+    width: var(--canvas-width);
+    height: var(--canvas-height);
+
+    position: relative; /* Vital for correct Y offset when ancestors are relative */
+
+    background-color: white;
+    background-image: radial-gradient(lightgrey 1px, transparent 0);
+    background-size: 20px 20px;
+    background-position: -19px -19px;
+    border: 5px dashed green;
+}
+
+.element {
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    z-index: 10;
+    background-color: #EBEBEB;
+    border: 2px solid black;
+    border-radius: 5px;
+    text-align: left;
+    font-size: 1.2rem;
+    padding: 10px;
+}
+
+#element1 {
+    left: calc(var(--canvas-center-x) - 300px);
+    top: calc(var(--canvas-center-y) - 200px);
+}
+
+#element2 {
+    left: calc(var(--canvas-center-x) - 300px);
+    top: calc(var(--canvas-center-y) + 200px);
+}
+
+#element3 {
+    left: calc(var(--canvas-center-x) + 100px);
+    top: calc(var(--canvas-center-y));
+}
